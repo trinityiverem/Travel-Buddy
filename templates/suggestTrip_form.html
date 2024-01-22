@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Suggest Trip Form</title>
+</head>
+<body>
+    <h2>Suggest a New Trip</h2>
+    <form action="http://127.0.0.1:5000/createTrip" method="post">
+
+        <div>
+        <input type="button" value="Generate ID" onclick="generateTripId()">
+    </div>
+
+    <div>
+        <label for="tripID">Trip ID:</label>
+        <input type="text" id="tripID" name="tripID" readonly>
+    </div>
+
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="Country" required><br><br>
+
+        <label for="region">Region:</label>
+        <input type="text" id="region" name="Region" required><br><br>
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="City" required><br><br>
+
+        <label for="attenders">Attenders:</label>
+        <input type="text" id="attenders" name="attenders" required><br><br>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+<script>
+    function generateTripId() {
+        // Make an AJAX request to the random.org API
+        fetch("https://www.random.org/integers/?num=1&min=1&max=10000&col=1&base=10&format=plain&rnd=new")
+            .then(response => response.text())
+            .then(data => {
+                // Update the trip ID input field with the generated number
+                document.getElementById("tripID").value = data.trim();
+            })
+            .catch(error => {
+                console.error("Error generating trip ID:", error);
+            });
+    }
+</script>

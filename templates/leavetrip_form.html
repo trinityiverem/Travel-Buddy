@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trips</title>
+    <style>
+        .join-form {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trips</h1>
+    <table>
+        <tr>
+            <th>Trip ID</th>
+            <th>Country</th>
+            <th>Region</th>
+            <th>City</th>
+            <th>Attenders</th>
+            <th>Action</th>
+        </tr>
+        {% for trip in trips %}
+        <tr>
+            <td>{{ trip._id }}</td>
+            <td>{{ trip.Country }}</td>
+            <td>{{ trip.Region }}</td>
+            <td>{{ trip.City }}</td>
+            <td>{{ trip.attenders }}</td>
+            <td>
+                <button type="button" onclick="toggleJoinForm('{{ trip._id }}', '{{ username }}')">Leave Trip</button>
+            </td>
+        </tr>
+        <tr class="join-form" id="joinForm-{{ trip._id }}">
+            <td colspan="6">
+                <form action="http://127.0.0.1:5000/leaveTrip" method="post">
+                    <input type="hidden" name="tripID" value="{{ trip._id }}">
+                    <input type="hidden" name="username" value="{{ username }}">
+                    <label for="removeUsernameInput">Username:</label>
+                    <input type="text" id="removeUsernameInput" name="removeUsernameInput" required>
+                    <label for="removeTripIdInput">Trip ID:</label>
+                    <input type="text" id="removeTripIdInput" name="removeTripIdInput" required>
+                    <button type="submit">Leave Trip</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        function toggleJoinForm(tripID, username) {
+            const form = document.getElementById(`joinForm-${tripID}`);
+            form.style.display = form.style.display === "none" ? "table-row" : "none";
+
+            // Set the form values
+            const removeUsernameInput = form.querySelector("#removeUsernameInput");
+            const removeTripIdInput = form.querySelector("#removeTripIdInput");
+            removeUsernameInput.value = username;
+            removeTripIdInput.value = tripID;
+        }
+    </script>
+</body>
+</html>
